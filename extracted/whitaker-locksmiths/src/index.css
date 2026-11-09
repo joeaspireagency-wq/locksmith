@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+
+/*
+ * Theme tokens (Tailwind CSS v4 reads its theme from CSS).
+ * The palette is limited to the five brand colours: `--color-*: initial` removes
+ * Tailwind's default colours, so only these utilities exist (bg-navy, text-slate,
+ * bg-amber ...). Keep COLOURS in src/config/site.ts in sync with these values.
+ *
+ *   navy      #14283F  header text, logo, hero, guarantee, final CTA, footer, headings
+ *   white     #FFFFFF  clean sections and cards
+ *   offwhite  #F3F6F8  alternating sections
+ *   amber     #F4B740  the CTA button ONLY (navy text on it)
+ *   slate     #526579  secondary text, icons, borders
+ */
+@theme {
+  --color-*: initial;
+  --color-navy: #14283f;
+  --color-white: #ffffff;
+  --color-offwhite: #f3f6f8;
+  --color-amber: #f4b740;
+  --color-slate: #526579;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-white);
+    color: var(--color-navy);
+    font-family: var(--font-sans);
+    font-size: 1rem; /* 16px minimum body text */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Anchors land below the sticky header (header is 64-80px tall). */
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  /*
+   * One focus style that works on light and navy backgrounds: a navy outline with a
+   * white halo, so it is visible on both.
+   */
+  :focus-visible {
+    outline: 3px solid var(--color-navy);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--color-white);
+  }
+
+  /* Programmatic focus on containers (skip target, headings) stays quiet for pointer users. */
+  [tabindex='-1']:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+}
+
+@layer components {
+  /* Fade-and-rise on scroll (see components/ui/Reveal.tsx). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 600ms ease-out,
+      transform 600ms ease-out;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Quote pop-up (components/QuoteModal.tsx): the panel rises in, the backdrop fades in. */
+  .quote-dialog[open] {
+    animation: dialog-in 220ms ease-out both;
+  }
+
+  .quote-dialog[open]::backdrop {
+    animation: backdrop-in 220ms ease-out both;
+  }
+
+  /* Header menu (components/Header.tsx): drops down from under the header. */
+  .site-menu {
+    animation: menu-in 180ms ease-out both;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Respect prefers-reduced-motion: no animation, no transitions, no smooth scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
