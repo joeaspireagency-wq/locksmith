@@ -14,15 +14,16 @@ export function StickyBar() {
       className="fixed inset-x-0 bottom-0 z-40 border-t border-slate/25 bg-white shadow-[0_-4px_16px_rgba(20,40,63,0.12)] md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="mx-auto grid max-w-xl grid-cols-2 gap-2.5 px-3 py-2.5">
-        <CtaButton size="compact" block />
+      <div className="mx-auto flex max-w-xl items-center gap-2.5 px-3 py-2.5">
+        <div className="flex-1">
+          <CtaButton size="compact" block />
+        </div>
         <a
           href={PHONE_HREF}
           aria-label={`Call now on ${SITE.phone}`}
-          className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border-2 border-navy bg-white px-2 text-base font-bold text-navy transition active:scale-[0.98]"
+          className="inline-flex size-12 shrink-0 items-center justify-center rounded-lg border-2 border-navy bg-white text-navy transition active:scale-[0.98]"
         >
-          <Phone className="size-4" aria-hidden="true" />
-          Call Now
+          <Phone className="size-5" aria-hidden="true" />
         </a>
       </div>
     </div>

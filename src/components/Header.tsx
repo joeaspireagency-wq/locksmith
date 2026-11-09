@@ -62,15 +62,6 @@ export function Header() {
             <span>{SITE.phone}</span>
           </a>
 
-          {/* Mobile: phone icon button. */}
-          <a
-            href={PHONE_HREF}
-            aria-label={`Call ${SITE.businessName} on ${SITE.phone}`}
-            className="inline-flex size-12 shrink-0 items-center justify-center rounded-lg border border-slate/40 text-navy md:hidden"
-          >
-            <PhoneCall className="size-5" aria-hidden="true" />
-          </a>
-
           <button
             ref={buttonRef}
             type="button"
